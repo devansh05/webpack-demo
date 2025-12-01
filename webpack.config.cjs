@@ -1,15 +1,24 @@
 const path = require("path");
-const TerserPlugin = require("terser-webpack-plugin")
+const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const HTMLWebPackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   //entry point where webpack starts the build process from
   entry: "./src/index.js",
   output: {
-    filename: "bundle.js",
+    filename: "bundle.[contenthash].js",
     path: path.resolve(__dirname, "dist"),
-    publicPath: "dist/",
+    //index.html file generated from HTMLWebPackPlugin, is already in dist, hence need to remove dist/ from publicPath
+    // publicPath: "dist/",
+    publicPath: "",
     // publicPath: "https://aws.s3.com/something/",
+    // alternate for CleanWebpackPlugin
+    // clean:{
+    // dry: true,
+    // keep: /files you want to prevent from deleting\.js/
+    // }
   },
   mode: "none",
   module: {
@@ -31,6 +40,10 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
       {
+        test: /\.(hbs)$/i,
+        use: ["handlebars-loader"],
+      },
+      {
         test: /\.(js)$/i,
         exclude: /node_modules/,
         use: [
@@ -45,10 +58,24 @@ module.exports = {
       },
     ],
   },
-  plugins:[
-   new TerserPlugin(),
-   new MiniCssExtractPlugin({
-    filename: "styles.css",
-   })
-  ]
+  plugins: [
+    new TerserPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "styles.[contenthash].css",
+    }),
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: [
+        "**/*",
+        //now it'll not delete anything inside build folder
+        path.join(process.cwd(), "build/**/*"),
+      ],
+    }),
+    new HTMLWebPackPlugin({
+      title: "My Webpack App",
+      meta: {
+        description: "A simple webpack app",
+      },
+      template: "src/app.hbs"
+    }),
+  ],
 };
