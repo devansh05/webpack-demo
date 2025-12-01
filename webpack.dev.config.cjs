@@ -1,6 +1,4 @@
 const path = require("path");
-const TerserPlugin = require("terser-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HTMLWebPackPlugin = require("html-webpack-plugin");
 
@@ -20,7 +18,19 @@ module.exports = {
     // keep: /files you want to prevent from deleting\.js/
     // }
   },
-  mode: "none",
+  devServer:{
+    port: 3000,
+    static: {
+      directory: path.resolve(__dirname, 'dist'),
+    },
+    devMiddleware: {
+      index: 'index.html',
+      writeToDisk: true,
+    },
+    hot: true,
+    open: true,
+  },
+  mode: "development",
   module: {
     rules: [
       {
@@ -33,11 +43,11 @@ module.exports = {
       },
       {
         test: /\.(css)$/i,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.(scss)$/i,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
         test: /\.(hbs)$/i,
@@ -59,10 +69,6 @@ module.exports = {
     ],
   },
   plugins: [
-    new TerserPlugin(),
-    new MiniCssExtractPlugin({
-      filename: "styles.[contenthash].css",
-    }),
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: [
         "**/*",
