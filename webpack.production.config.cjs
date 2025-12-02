@@ -2,12 +2,16 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HTMLWebPackPlugin = require("html-webpack-plugin");
+const { OptimizationStages } = require("webpack");
 
 module.exports = {
   //entry point where webpack starts the build process from
-  entry: "./src/index.js",
+  entry: {
+    "component-1": "./src/index.js",
+    "component-2": "./src/index.js",
+  },
   output: {
-    filename: "bundle.[contenthash].js",
+    filename: "[name].bundle.[contenthash].js",
     path: path.resolve(__dirname, "dist"),
     //index.html file generated from HTMLWebPackPlugin, is already in dist, hence need to remove dist/ from publicPath
     // publicPath: "dist/",
@@ -20,6 +24,12 @@ module.exports = {
     // }
   },
   mode: "production",
+  optimization: {
+    splitchunks: {
+      chunks: "all",
+      minSize: 2000,
+    },
+  },
   module: {
     rules: [
       {
@@ -59,7 +69,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "styles.[contenthash].css",
+      filename: "[name].styles.[contenthash].css",
     }),
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: [
@@ -69,11 +79,23 @@ module.exports = {
       ],
     }),
     new HTMLWebPackPlugin({
-      title: "My Webpack App",
+      title: "Component 1",
+      filename: "component-1.html",
+      chunks: ["component-1"],
       meta: {
         description: "A simple webpack app",
       },
-      template: "src/app.hbs"
+      template: "src/app.hbs",
+      // minify: false
+    }),
+    new HTMLWebPackPlugin({
+      title: "Component 2",
+      filename: "component-2.html",
+      chunks: ["component-2"],
+      meta: {
+        description: "A simple webpack app",
+      },
+      template: "src/app.hbs",
     }),
   ],
 };
