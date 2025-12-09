@@ -1,5 +1,14 @@
+import NavigationBar from "./components/navigation-bar";
+
+const navigationItems = [
+  { name: "Hello World Page", path: "/hello-world-page" },
+  { name: "Kiwi Page", path: "/kiwi-page" },
+];
+
+const navigationBar = new NavigationBar();
+navigationBar.render(navigationItems);
+
 const url = window.location.pathname;
-console.log("dashboard url", url);
 
 if (url === "/hello-world-page") {
   import("HelloWorldApp/HelloWorldPage").then((HelloWorldPageModule) => {
@@ -14,5 +23,3 @@ if (url === "/hello-world-page") {
     kiwiPage.render();
   });
 }
-
-console.log(" DASHBOARD ");
