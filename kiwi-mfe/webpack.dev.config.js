@@ -6,7 +6,7 @@ const { ModuleFederationPlugin } = require("webpack").container;
 module.exports = {
   entry: "./src/kiwi.js",
   output: {
-    filename: "bundle.js",
+    filename: "bundle.[contenthash].js",
     path: path.resolve(__dirname, "./dist"),
     // public path is where the other apps can find remoteEntry.js file for this mfe
     publicPath: "http://localhost:9002/",
@@ -72,6 +72,9 @@ module.exports = {
             HelloWorldApp: 'HelloWorldApp@http://localhost:9001/remoteEntry.js'
         },
         // this app also can use exposes object in case if this app also needs to expose modules to be consumed by other apps
+        exposes: {
+          './KiwiPage': './src/components/kiwi-page/kiwi-page.js' 
+        }
     })
   ],
 };

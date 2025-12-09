@@ -61,7 +61,8 @@ module.exports = {
       // exposes is only for mini apps, that contains the modules to be used by other apps
       exposes: {
         // HelloWorld is the name of module used to access this file ./src/hello-world.js in other apps
-        "./HelloWorldButton": './src/components/hello-world-button/hello-world-button.js'
+        "./HelloWorldButton": './src/components/hello-world-button/hello-world-button.js',
+        './HelloWorldPage': './src/components/hello-page/hello-page.js'
       },
     }),
   ],

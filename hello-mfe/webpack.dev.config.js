@@ -6,7 +6,7 @@ const { ModuleFederationPlugin } = require("webpack").container;
 module.exports = {
   entry: "./src/hello-world.js",
   output: {
-    filename: "bundle.js",
+    filename: "bundle.[contenthash].js",
     path: path.resolve(__dirname, "./dist"),
     // public path is where the other apps can find remoteEntry.js file for this mfe
     publicPath: "http://localhost:9001/",
@@ -63,7 +63,8 @@ module.exports = {
             // HelloWorld is the name of module used to access this file ./src/hello-world.js in other apps
             // this is the name of exact function or component which will be imported from HelloWorldApp (name mentioned above)
             // for eg import {HelloWorld} from HelloWorldApp;
-            './HelloWorldButton': './src/components/hello-world-button/hello-world-button.js'
+            './HelloWorldButton': './src/components/hello-world-button/hello-world-button.js',
+            './HelloWorldPage': './src/components/hello-page/hello-page.js'
         },
 
     })
