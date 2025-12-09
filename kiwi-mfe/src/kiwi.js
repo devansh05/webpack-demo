@@ -13,3 +13,11 @@ import ('HelloWorldApp/HelloWorldPage')
     helloPage.render();
 }
 )
+
+import ('ImageCaptionApp/ImageCaptionComponent')
+.then(ImageCaptionModule => {
+    const ImageCaptionComponent = ImageCaptionModule.default;
+    const imageCaptionComponent = new ImageCaptionComponent();
+    imageCaptionComponent.render();
+}
+)

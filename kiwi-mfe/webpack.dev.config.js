@@ -69,7 +69,8 @@ module.exports = {
         // this is the container app, hence it uses remotes, where we'll list all the modules exposed by other app with that exact name set in ModuleFederationPlugin of mini app
         remotes: {
             // HelloWorld is the name of app that was exported by other mini app, and after @ is the path that will be used to consume remoteEntry.js file exposed from that app
-            HelloWorldApp: 'HelloWorldApp@http://localhost:9001/remoteEntry.js'
+            HelloWorldApp: 'HelloWorldApp@http://localhost:9001/remoteEntry.js',
+            ImageCaptionApp: 'ImageCaptionApp@http://localhost:9003/remoteEntry.js'
         },
         // this app also can use exposes object in case if this app also needs to expose modules to be consumed by other apps
         exposes: {
