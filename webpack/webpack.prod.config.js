@@ -10,16 +10,19 @@ module.exports = merge(common, {
   },
   optimization: {
     minimize: true,
-    minimizer: ["...", new CssMinimizerPlugin({
-      minimizerOptions: {
-        preset: [
-          "default",
-          {
-            discardComments: { removeAll: true },
-          },
-        ],
-      },
-    })],
+    minimizer: [
+      "...",
+      new CssMinimizerPlugin({
+        minimizerOptions: {
+          preset: [
+            "default",
+            {
+              discardComments: { removeAll: true },
+            },
+          ],
+        },
+      }),
+    ],
   },
   module: {
     rules: [
@@ -42,6 +45,10 @@ module.exports = merge(common, {
             },
           },
         ],
+      },
+      {
+        test: /\.less$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"],
       },
     ],
   },
