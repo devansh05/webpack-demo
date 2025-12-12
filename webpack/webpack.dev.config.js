@@ -1,21 +1,48 @@
-const merge = require("webpack-merge");
 const common = require("./webpack.common.config.js");
+const { merge } = require("webpack-merge");
 const path = require("path");
 
-module.exports = merge.merge(common, {
+module.exports = merge(common, {
   mode: "development",
+  output: {
+    filename: "bundle.js",
+  },
   devServer: {
     port: 3000,
     static: {
-      directory: path.resolve(__dirname, ".."),
+      directory: path.resolve(__dirname, "../dist"), //as the html, js files will be in dist folder
     },
     devMiddleware: {
       index: "index.html",
       writeToDisk: true,
     },
-    client:{
+    client: {
       overlay: true,
     },
     liveReload: false,
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        exclude: /\.module\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.css$/,
+        include: /\.module\.css$/,
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              modules: {
+                localIdentName: "[name]__[local]___[hash:base64:5]",
+              },
+            },
+          },
+        ],
+      },
+    ],
   },
 });

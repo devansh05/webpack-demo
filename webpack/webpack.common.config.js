@@ -1,11 +1,27 @@
 const path = require("path");
+const htmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const config = {
   entry: "./src/js/index.js",
   output: {
     path: path.resolve(__dirname, "../dist"),
-    filename: "bundle.js",
   },
+  module: {
+    rules: [
+      {
+        test: /\.html$/,
+        use: [{ loader: "html-loader" }],
+      },
+    ],
+  },
+  plugins: [
+    new htmlWebpackPlugin({
+      filename: "index.html", // name of generated file, useful if you want to generate more than one file
+      template: "./src/template.html", // source file for custom html file template
+    }),
+    new CleanWebpackPlugin(),
+  ],
 };
 
 module.exports = config;
