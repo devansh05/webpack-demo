@@ -47,6 +47,22 @@ module.exports = merge(common, {
         test: /\.less$/,
         use: ["style-loader", "css-loader", "less-loader"],
       },
+      {
+        test: /\.scss$/,
+        use: [
+          "style-loader",
+          "css-loader",
+          {
+            loader: "sass-loader",
+            options: {
+              sassOptions: {
+                quietDeps: true,
+                silenceDeprecations: ["import"],
+              },
+            },
+          },
+        ],
+      },
     ],
   },
 });
