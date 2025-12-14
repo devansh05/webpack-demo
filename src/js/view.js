@@ -1,6 +1,8 @@
 import jss from "jss";
 import preset from "jss-preset-default";
-import { css } from '@emotion/css'
+// only for Emotion CSS
+// import { css } from '@emotion/css'
+import Checkmark from "../../images/checkmark.svg";
 import * as styles from "../styles/notification.module.css";
 
 jss.setup(preset());
@@ -39,7 +41,7 @@ export function renderTodos(todos) {
     return `
             <li data-id="${todo.id}" class="${className}">
                 <span class="custom-checkbox">
-                    <img class="check" src="./images/checkmark.svg" width="22" height="22"></img>
+                    <img class="check" src="${Checkmark}" width="22" height="22"></img>
                     <input class="${classes.realCheckbox}"  type="checkbox" ${completionClass} />
                 </span>
                 <label>${todo.text}</label>
