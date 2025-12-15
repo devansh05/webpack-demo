@@ -25,11 +25,8 @@ const config = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: "https://unsplash.com/photos/*.*",
-          to: path.resolve(__dirname, "../dist/public"),
-          globOptions: {
-            ignore: ["**/index.html"],
-          },
+          from: path.resolve(__dirname, "../images"),
+          to: path.resolve(__dirname, "../dist/public/images"),
         },
       ],
     }),
