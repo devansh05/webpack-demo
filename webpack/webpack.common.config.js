@@ -8,11 +8,20 @@ const config = {
   output: {
     path: path.resolve(__dirname, "../dist"),
   },
+  resolve: {
+    extensions: [".js", ".json", ".ts"],
+  },
   module: {
     rules: [
       {
         test: /\.html$/,
+        exclude: /node_modules/,
         use: [{ loader: "html-loader" }],
+      },
+      {
+        test: /\.(js|ts)$/,
+        exclude: /node_modules/,
+        use: [{ loader: "babel-loader" }],
       },
     ],
   },
