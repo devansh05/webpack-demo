@@ -25,6 +25,7 @@
     "@babel/plugin-proposal-pipeline-operator": "^7.27.1",
     "@babel/preset-env": "^7.28.5",
     "@babel/preset-typescript": "^7.28.5",
+    "@emotion/babel-plugin": "^11.13.5",
     "@emotion/css": "^11.13.5",
     "autoprefixer": "^10.4.22",
     "babel-loader": "^10.0.0",
@@ -60,6 +61,6 @@
     "webpack-merge": "^6.0.1"
   },
   "dependencies": {
-    "lodash": "^4.17.21"
+    "lodash-es": "^4.17.22"
   }
 }

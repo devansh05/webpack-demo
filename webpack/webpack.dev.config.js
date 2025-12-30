@@ -7,6 +7,10 @@ module.exports = merge(common, {
   output: {
     filename: "bundle.js",
   },
+  optimization: {
+    usedExports: true,
+  },
+  devtool: "eval-source-map",
   devServer: {
     port: 3000,
     static: {
@@ -72,9 +76,9 @@ module.exports = merge(common, {
           },
         },
         generator: {
-          filename: 'images/[name][ext]'
-        }
-      }
+          filename: "images/[name][ext]",
+        },
+      },
     ],
   },
 });

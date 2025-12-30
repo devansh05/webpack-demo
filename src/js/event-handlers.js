@@ -1,6 +1,6 @@
 import { addTodo, getAllTodos, removeTodo, updateTodo } from "./data.js";
 import { renderTodos, clearNewTodoInput, getTodoId } from "./view.js";
-import { capitalize } from "lodash";
+import { capitalize } from "lodash-es";
 import { trim } from "./helpers.ts";
 // const trim = (value) =>
 //   value
