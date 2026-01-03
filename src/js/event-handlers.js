@@ -2,7 +2,6 @@ import { addTodo, getAllTodos, removeTodo, updateTodo } from "./data.js";
 import { renderTodos, clearNewTodoInput, getTodoId } from "./view.js";
 import { capitalize } from "lodash-es";
 import { trim } from "./helpers.ts";
-import $ from "jquery";
 // const trim = (value) =>
 //   value
 //     .replace(/^\s+/, "")
@@ -28,10 +27,16 @@ export function newTodoEventHandler(event) {
 }
 
 export function removeTodoEventHandler(event) {
-  import(
-    /* webpackChunkName: "async-bootstrap" */
-    "bootstrap/dist/js/bootstrap.bundle.js"
-  ).then(({ Modal }) => {
+  Promise.all([
+    import(
+      /* webpackChunkName: "async-bootstrap" */
+      "bootstrap/dist/js/bootstrap.bundle.js"
+    ),
+    import(
+      /* webpackChunkName: "async-jquery" */
+      "jquery"
+    ),
+  ]).then(([{ Modal }, { default: $ }]) => {
     // Modal code can be used here if needed
     const id = getTodoId(event.target);
     $("#modal-delete-button").data("todo-id", id);
@@ -43,10 +48,16 @@ export function removeTodoEventHandler(event) {
 }
 
 export function confirmRemoveEventHandler() {
-  import(
-    /* webpackChunkName: "async-bootstrap" */
-    "bootstrap/dist/js/bootstrap.bundle.js"
-  ).then(({ Modal }) => {
+  Promise.all([
+    import(
+      /* webpackChunkName: "async-bootstrap" */
+      "bootstrap/dist/js/bootstrap.bundle.js"
+    ),
+    import(
+      /* webpackChunkName: "async-jquery" */
+      "jquery"
+    ),
+  ]).then(([{ Modal }, { default: $ }]) => {
     // Modal code can be used here if needed
     const id = $("#modal-delete-button").data("todo-id");
     removeTodo(id);
