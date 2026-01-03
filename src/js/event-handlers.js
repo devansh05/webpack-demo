@@ -26,8 +26,8 @@ export function newTodoEventHandler(event) {
   clearNewTodoInput();
 }
 
-export function removeTodoEventHandler(event) {
-  Promise.all([
+export async function removeTodoEventHandler(event) {
+  const [{ Modal }, { default: $ }] = await Promise.all([
     import(
       /* webpackChunkName: "async-bootstrap" */
       "bootstrap/dist/js/bootstrap.bundle.js"
@@ -36,19 +36,18 @@ export function removeTodoEventHandler(event) {
       /* webpackChunkName: "async-jquery" */
       "jquery"
     ),
-  ]).then(([{ Modal }, { default: $ }]) => {
-    // Modal code can be used here if needed
-    const id = getTodoId(event.target);
-    $("#modal-delete-button").data("todo-id", id);
-    const deleteTodoModal = Modal.getOrCreateInstance(
-      document.getElementById("modal-delete-todo")
-    );
-    deleteTodoModal.show();
-  });
+  ]);
+  // Modal code can be used here if needed
+  const id = getTodoId(event.target);
+  $("#modal-delete-button").data("todo-id", id);
+  const deleteTodoModal = Modal.getOrCreateInstance(
+    document.getElementById("modal-delete-todo")
+  );
+  deleteTodoModal.show();
 }
 
-export function confirmRemoveEventHandler() {
-  Promise.all([
+export async function confirmRemoveEventHandler() {
+  const [{ Modal }, { default: $ }] = await Promise.all([
     import(
       /* webpackChunkName: "async-bootstrap" */
       "bootstrap/dist/js/bootstrap.bundle.js"
@@ -57,16 +56,14 @@ export function confirmRemoveEventHandler() {
       /* webpackChunkName: "async-jquery" */
       "jquery"
     ),
-  ]).then(([{ Modal }, { default: $ }]) => {
-    // Modal code can be used here if needed
-    const id = $("#modal-delete-button").data("todo-id");
-    removeTodo(id);
-    renderTodos(getAllTodos());
-    const deleteTodoModal = Modal.getOrCreateInstance(
-      document.getElementById("modal-delete-todo")
-    );
-    deleteTodoModal.hide();
-  });
+  ]);
+  const id = $("#modal-delete-button").data("todo-id");
+  removeTodo(id);
+  renderTodos(getAllTodos());
+  const deleteTodoModal = Modal.getOrCreateInstance(
+    document.getElementById("modal-delete-todo")
+  );
+  deleteTodoModal.hide();
 }
 
 export function toggleTodoEventListener(event) {
