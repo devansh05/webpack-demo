@@ -6,7 +6,6 @@ const path = require("path");
 const glob = require("glob");
 const { PurgeCSSPlugin } = require("purgecss-webpack-plugin");
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
-const { runtime } = require("webpack");
 
 module.exports = merge(common, {
   mode: "production",
@@ -102,6 +101,27 @@ module.exports = merge(common, {
       //     },
       //   },
       // },
+      // chunks: "all",
+      // maxSize: Infinity,
+      // minSize: 10,
+      // cacheGroups: {
+      //   jquery: {
+      //     test: /[\\/]node_modules[\\/]jquery[\\/]/,
+      //     name: "jquery",
+      //   },
+      //   bootstrap: {
+      //     test: /[\\/]node_modules[\\/]bootstrap[\\/]/,
+      //     name: "bootstrap",
+      //   },
+      //   lodash: {
+      //     test: /[\\/]node_modules[\\/]lodash-es[\\/]/,
+      //     name: "lodash-es",
+      //   },
+      //   node_modules: {
+      //     test: /[\\/]node_modules[\\/]/,
+      //     name: "node_modules",
+      //   },
+      // },
       chunks: "all",
       maxSize: Infinity,
       minSize: 10,
@@ -109,18 +129,31 @@ module.exports = merge(common, {
         jquery: {
           test: /[\\/]node_modules[\\/]jquery[\\/]/,
           name: "jquery",
-        },
-        bootstrap: {
-          test: /[\\/]node_modules[\\/]bootstrap[\\/]/,
-          name: "bootstrap",
+          chunks: "initial",
         },
         lodash: {
           test: /[\\/]node_modules[\\/]lodash-es[\\/]/,
           name: "lodash-es",
+          chunks: "initial",
         },
         node_modules: {
           test: /[\\/]node_modules[\\/]/,
           name: "node_modules",
+          chunks: "initial",
+          priority: -20,
+        },
+        async: {
+          test: /[\\/]node_modules[\\/]/,
+          chunks: "async",
+          priority: 20,
+          reuseExistingChunk: true,
+          name(module, chunks) {
+            const derived = (chunks || [])
+              .map((chunk) => chunk && (chunk.name || chunk.id))
+              .filter(Boolean)
+              .join("-");
+            return derived || "async";
+          },
         },
       },
     },

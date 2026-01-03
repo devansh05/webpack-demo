@@ -6,7 +6,6 @@ import {
   confirmRemoveEventHandler,
 } from "./event-handlers.js";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.js";
 import "../styles/index.scss";
 
 window.addEventListener("load", onLoadEventHandler);
