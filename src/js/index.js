@@ -2,9 +2,12 @@ import {
   onLoadEventHandler,
   newTodoEventHandler,
   removeTodoEventHandler,
-  toggleTodoEventListener
+  toggleTodoEventListener,
+  confirmRemoveEventHandler,
 } from "./event-handlers.js";
-import '../styles/index.scss'
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.js";
+import "../styles/index.scss";
 
 window.addEventListener("load", onLoadEventHandler);
 document.addEventListener("change", function (event) {
@@ -18,5 +21,8 @@ document.addEventListener("click", function (event) {
   }
   if (event.target.classList.contains("real-checkbox")) {
     toggleTodoEventListener(event);
+  }
+  if (event.target.id === "modal-delete-button") {
+    confirmRemoveEventHandler(event);
   }
 });

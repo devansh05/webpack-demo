@@ -6,6 +6,7 @@ const path = require("path");
 const glob = require("glob");
 const { PurgeCSSPlugin } = require("purgecss-webpack-plugin");
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+const { runtime } = require("webpack");
 
 module.exports = merge(common, {
   mode: "production",
@@ -45,14 +46,13 @@ module.exports = merge(common, {
                       params: {
                         overrides: {
                           removeViewBox: false,
-                          addAttributesToSVGElement: {
-                            params: {
-                              attributes: [
-                                { xmlns: "http://www.w3.org/2000/svg" },
-                              ],
-                            },
-                          },
                         },
+                      },
+                    },
+                    {
+                      name: "addAttributesToSVGElement",
+                      params: {
+                        attributes: [{ xmlns: "http://www.w3.org/2000/svg" }],
                       },
                     },
                   ],
@@ -73,6 +73,57 @@ module.exports = merge(common, {
         ],
       }),
     ],
+    runtimeChunk: "single",
+    splitChunks: {
+      // cacheGroups: {
+      //   jquery: {
+      //     test: /[\\/]node_modules[\\/]jquery[\\/]/,
+      //     name: "jquery",
+      //     chunks: "initial",
+      //   },
+      //   jquery: {
+      //     test: /[\\/]node_modules[\\/]bootstrap[\\/]/,
+      //     name: "bootstrap",
+      //     chunks: "initial",
+      //   },
+      // },
+      // chunks: "all",
+      // cacheGroups: {
+      //   node_modules: {
+      //     test: /[\\/]node_modules[\\/]/,
+      //     name(module) {
+      //       const context = module.context || "";
+      //       const match = context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/);
+      //       if (!match) {
+      //         return "vendor";
+      //       }
+      //       const packageName = match[1].replace("@", "");
+      //       return `vendor.${packageName}`;
+      //     },
+      //   },
+      // },
+      chunks: "all",
+      maxSize: Infinity,
+      minSize: 10,
+      cacheGroups: {
+        jquery: {
+          test: /[\\/]node_modules[\\/]jquery[\\/]/,
+          name: "jquery",
+        },
+        bootstrap: {
+          test: /[\\/]node_modules[\\/]bootstrap[\\/]/,
+          name: "bootstrap",
+        },
+        lodash: {
+          test: /[\\/]node_modules[\\/]lodash-es[\\/]/,
+          name: "lodash-es",
+        },
+        node_modules: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "node_modules",
+        },
+      },
+    },
   },
   module: {
     rules: [
