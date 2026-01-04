@@ -8,6 +8,9 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/index.scss";
 
+export function reloadAppForDev() {
+  onLoadEventHandler();
+}
 window.addEventListener("load", onLoadEventHandler);
 document.addEventListener("change", function (event) {
   if (event.target.classList.contains("new-todo")) {
