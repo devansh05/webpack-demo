@@ -6,13 +6,14 @@ const path = require("path");
 const glob = require("glob");
 const { PurgeCSSPlugin } = require("purgecss-webpack-plugin");
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+const compressionWebpackPlugin = require("compression-webpack-plugin");
 
 module.exports = merge(common, {
   entry: "./src/js/index.js",
   mode: "production",
   output: {
     filename: "js/[name].[contenthash:12].js",
-    publicPath: '/static/'
+    publicPath: "/static/",
   },
   devtool: "source-map",
   optimization: {
@@ -221,6 +222,17 @@ module.exports = merge(common, {
       paths: glob.sync(`${path.join(__dirname, "../src")}/**/*`, {
         nodir: true,
       }),
+    }),
+    new compressionWebpackPlugin({
+      filename: "[path][base].gz",
+      algorithm: "gzip",
+      test: /\.(js|css)$/,
+    }),
+    new compressionWebpackPlugin({
+      algorithm: "brotliCompress",
+      filename: "[path][base].br",
+      test: /\.(js|css)$/,
+      compressionOptions: { level: 11 },
     }),
   ],
 });

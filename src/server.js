@@ -2,6 +2,8 @@ const express = require("express");
 const path = require("path");
 
 const app = express();
+const expressStaticGzip = require("express-static-gzip");
+
 const PORT = process.env.PORT || 3000;
 const DIST_DIR = path.resolve(__dirname, "../dist");
 const STATIC_PREFIX = "/static";
@@ -21,8 +23,9 @@ if (process.env.NODE_ENV === "development") {
 }
 app.use(
   STATIC_PREFIX,
-  express.static(DIST_DIR, {
-    fallthrough: false,
+  expressStaticGzip(DIST_DIR, {
+    enableBrotli: true,
+    orderPreference: ["br", "gz"],
   })
 );
 
